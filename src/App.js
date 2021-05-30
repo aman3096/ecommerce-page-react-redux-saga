@@ -1,23 +1,26 @@
+import React,{useState} from "react";
+import { createStore } from "redux";
 import logo from './logo.svg';
 import './App.css';
+import store from "./redux/store"
+import {addBug, removeBug, resolveBug} from "./redux/actionCreators"
+
+const unsubscribe = store.subscribe(()=>{
+  console.log("store changed", store.getState());
+})
+
+store.dispatch(addBug("Bug1"));
+store.dispatch(addBug("Bug2"));
+store.dispatch(resolveBug(1, "resolved bug 1"));
+store.dispatch(removeBug(1))
+
+
 
 function App() {
+  const [ data, setData]  = useState(store.getState());
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    {JSON.stringify(data)}
     </div>
   );
 }
